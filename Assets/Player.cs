@@ -28,6 +28,7 @@ public class Player : MonoBehaviour
     public LayerMask obstacleLayerMask;
     public LayerMask transfromatorLayerMask;
     public LayerMask boostLayerMask;
+    public LayerMask coinLayerMask;
 
     GroundFall fall;
     CameraController cameraController;
@@ -201,6 +202,8 @@ public class Player : MonoBehaviour
                 isGrounded = false;
             }
 
+
+
         }
 
         Vector2 obstOrigin = new Vector2(pos.x, pos.y);
@@ -246,7 +249,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        Vector2 boostOrigin = new Vector2(pos.x + 0.2f, pos.y);
+        Vector2 boostOrigin = new Vector2(pos.x + 0.1f, pos.y);
         RaycastHit2D boostHitX = Physics2D.Raycast(boostOrigin, Vector2.right, velocity.x * Time.fixedDeltaTime, boostLayerMask);
         if (boostHitX.collider != null)
         {
@@ -280,6 +283,29 @@ public class Player : MonoBehaviour
                 Debug.Log(powerUp.powerActive);
             }
         }
+
+        Vector2 coinOrigin = new Vector2(pos.x, pos.y);
+        RaycastHit2D coinHitX = Physics2D.Raycast(coinOrigin, Vector2.right, velocity.x * Time.fixedDeltaTime, coinLayerMask);
+        if (coinHitX.collider != null)
+        {
+            Coin coin = coinHitX.collider.GetComponent<Coin>();
+            if (coin != null)
+            {
+                Destroy(coin.gameObject);
+            }
+        }
+
+        RaycastHit2D coinHitY = Physics2D.Raycast(boostOrigin, Vector2.up, velocity.y * Time.fixedDeltaTime, coinLayerMask);
+        if (coinHitY.collider != null)
+        {
+            Coin coin = coinHitY.collider.GetComponent<Coin>();
+            
+            if (coin != null)
+            {
+                Destroy(coin.gameObject);
+            }
+        }
+
 
         transform.position = pos;
     }
