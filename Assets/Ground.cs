@@ -20,6 +20,7 @@ public class Ground : MonoBehaviour
     public TrObst tfTemplate;
     public GlassBox glassTemplate;
     public Boost boost;
+    public Coin coin;
     powerManager power;
 
 
@@ -126,6 +127,10 @@ public class Ground : MonoBehaviour
         if (status)
         {
             int obstacleTransformNum = Random.Range(0, 2);
+            int coinNum = Random.Range(0, 2);
+            int coinChance = Random.Range(0, 11);
+
+
 
             for (int i = 0; i < obstacleTransformNum; i++)
             {
@@ -134,7 +139,7 @@ public class Ground : MonoBehaviour
 
 
                 TrObst trans = tf.GetComponent<TrObst>();
-                BoxCollider2D trCollider = trans.GetComponent<BoxCollider2D>();
+                //BoxCollider2D trCollider = trans.GetComponent<BoxCollider2D>();
 
 
 
@@ -151,11 +156,39 @@ public class Ground : MonoBehaviour
                 tf.transform.position = transformPos;
             }
 
+            for (int i = 0; i < coinNum; i++)
+            {
+                Debug.Log("!");
+                GameObject con = Instantiate(coin.gameObject);
+
+
+                Coin c = con.GetComponent<Coin>();
+                //CircleCollider2D coinCollider = c.GetComponent<CircleCollider2D>();
+
+                float y = goGround.groundHeight;
+                float halfWidth = (goCollider.size.x / 2) - 1;
+
+                float left = go.transform.position.x - halfWidth;
+                float right = go.transform.position.x + halfWidth;
+
+
+                float x = Random.Range(left, right);
+                Vector2 coinPos = new Vector2(x, y);
+                con.transform.position = coinPos;
+            }
+
+            //if (coinChance == 1)
+            //{
+                
+            //}
+
+
+
         }
         else
         {
             
-            int obstacleBoxNum = Random.Range(0, 3);
+            int obstacleBoxNum = Random.Range(0, 2);
             for (int i = 0; i < obstacleBoxNum; i++)
             {
                 GameObject box = Instantiate(boxTemplate.gameObject);
@@ -240,6 +273,35 @@ public class Ground : MonoBehaviour
                 {
                     GlassBox g = glass.GetComponent<GlassBox>();
                     fall.glass.Add(g);
+                }
+            }
+
+
+            int coinNum = Random.Range(0, 2);
+            for (int i = 0; i < coinNum; i++)
+            {
+                Debug.Log("!");
+                GameObject con = Instantiate(coin.gameObject);
+
+
+                Coin c = con.GetComponent<Coin>();
+                //CircleCollider2D coinCollider = c.GetComponent<CircleCollider2D>();
+
+                float y = goGround.groundHeight;
+                float halfWidth = (goCollider.size.x / 2) - 1;
+
+                float left = go.transform.position.x - halfWidth;
+                float right = go.transform.position.x + halfWidth;
+
+
+                float x = Random.Range(left, right);
+                Vector2 coinPos = new Vector2(x, y);
+                con.transform.position = coinPos;
+
+                if (fall != null)
+                {
+                    Coin cn = con.GetComponent<Coin>();
+                    fall.coins.Add(cn);
                 }
             }
         }
