@@ -24,6 +24,8 @@ public class Player : MonoBehaviour
 
     public bool isDead = false;
 
+    public int coinsNum = 0;
+
     public LayerMask groundLayerMask;
     public LayerMask obstacleLayerMask;
     public LayerMask transfromatorLayerMask;
@@ -289,9 +291,11 @@ public class Player : MonoBehaviour
         if (coinHitX.collider != null)
         {
             Coin coin = coinHitX.collider.GetComponent<Coin>();
+            powerUp = GameObject.Find("powerManager").GetComponent<powerManager>();
             if (coin != null)
             {
                 Destroy(coin.gameObject);
+                coinsNum += 1;
             }
         }
 
@@ -299,10 +303,11 @@ public class Player : MonoBehaviour
         if (coinHitY.collider != null)
         {
             Coin coin = coinHitY.collider.GetComponent<Coin>();
-            
+            powerUp = GameObject.Find("powerManager").GetComponent<powerManager>();
             if (coin != null)
             {
                 Destroy(coin.gameObject);
+                coinsNum += 1;
             }
         }
 

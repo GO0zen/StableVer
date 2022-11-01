@@ -134,15 +134,9 @@ public class Ground : MonoBehaviour
 
             for (int i = 0; i < obstacleTransformNum; i++)
             {
-
                 GameObject tf = Instantiate(tfTemplate.gameObject);
 
-
                 TrObst trans = tf.GetComponent<TrObst>();
-                //BoxCollider2D trCollider = trans.GetComponent<BoxCollider2D>();
-
-
-
 
                 float y = goGround.groundHeight + 3;
                 float halfWidth = (goCollider.size.x / 2) - 14.5f;
@@ -154,36 +148,39 @@ public class Ground : MonoBehaviour
                 float x = Random.Range(left, right);
                 Vector2 transformPos = new Vector2(x, y);
                 tf.transform.position = transformPos;
+
+                if (fall != null)
+                {
+                    fall.transformators.Add(trans);
+                }
             }
 
-            for (int i = 0; i < coinNum; i++)
+
+            if (coinChance == 1 || coinChance == 7)
             {
-                Debug.Log("!");
-                GameObject con = Instantiate(coin.gameObject);
+                for (int i = 0; i < coinNum; i++)
+                {
+                    GameObject con = Instantiate(coin.gameObject);
+                    Coin c = con.GetComponent<Coin>();
+
+                    float y = goGround.groundHeight;
+                    float halfWidth = (goCollider.size.x / 2) - 1;
+
+                    float left = go.transform.position.x - halfWidth;
+                    float right = go.transform.position.x + halfWidth;
 
 
-                Coin c = con.GetComponent<Coin>();
-                //CircleCollider2D coinCollider = c.GetComponent<CircleCollider2D>();
+                    float x = Random.Range(left, right);
+                    Vector2 coinPos = new Vector2(x, y);
+                    con.transform.position = coinPos;
 
-                float y = goGround.groundHeight;
-                float halfWidth = (goCollider.size.x / 2) - 1;
-
-                float left = go.transform.position.x - halfWidth;
-                float right = go.transform.position.x + halfWidth;
-
-
-                float x = Random.Range(left, right);
-                Vector2 coinPos = new Vector2(x, y);
-                con.transform.position = coinPos;
+                    if (fall != null)
+                    {
+                        fall.coins.Add(c);
+                    }
+                }
             }
-
-            //if (coinChance == 1)
-            //{
-                
-            //}
-
-
-
+            
         }
         else
         {
@@ -209,7 +206,8 @@ public class Ground : MonoBehaviour
             }
 
             int obstacleTransformNum = Random.Range(0, 2);
-            int obstacleGlassBoxNum = Random.Range(0, 2);
+            
+            int boostChance = Random.Range(0, 6);
 
             for (int i = 0; i < obstacleTransformNum; i++)
             {
@@ -235,26 +233,34 @@ public class Ground : MonoBehaviour
                 tf.transform.position = transformPos;
 
 
+                if (boostChance == 3)
+                {
+                    GameObject Boost = Instantiate(boost.gameObject);
+                    Boost b = Boost.GetComponent<Boost>();
 
-                GameObject Boost = Instantiate(boost.gameObject);
-                Boost b = Boost.GetComponent<Boost>();
+                    float edge = tf.transform.position.y + (trCollider.size.y * 87.25f);
+                    float boostY = edge;
+                    float hw = (trCollider.size.x / 2) - 1;
+                    float l = tf.transform.position.x - hw;
+                    float r = tf.transform.position.x + hw;
 
-                float edge = tf.transform.position.y + (trCollider.size.y * 87.25f);
-                float boostY = edge;
-                float hw = (trCollider.size.x / 2) - 1;
-                float l = tf.transform.position.x - hw;
-                float r = tf.transform.position.x + hw;
+                    float boostX = Random.Range(l, r);
+                    Vector2 boostPos = new Vector2(boostX, boostY);
+                    Boost.transform.position = boostPos;
 
-                float boostX = Random.Range(l, r);
-                Vector2 boostPos = new Vector2(boostX, boostY);
-                Boost.transform.position = boostPos;
+                    if (fall != null)
+                    {
+                        fall.boost.Add(b);
+                    }
+                }
 
                 if (fall != null)
                 {
                     fall.transformators.Add(trans);
-                    fall.boost.Add(b);
                 }
             }
+
+            int obstacleGlassBoxNum = Random.Range(0, 2);
 
             for (int j = 0; j < obstacleGlassBoxNum; j++)
             {
@@ -278,32 +284,34 @@ public class Ground : MonoBehaviour
 
 
             int coinNum = Random.Range(0, 2);
-            for (int i = 0; i < coinNum; i++)
+            int coinChance = Random.Range(0, 11);
+
+           
+            if (coinChance == 1 || coinChance == 7)
             {
-                Debug.Log("!");
-                GameObject con = Instantiate(coin.gameObject);
-
-
-                Coin c = con.GetComponent<Coin>();
-                //CircleCollider2D coinCollider = c.GetComponent<CircleCollider2D>();
-
-                float y = goGround.groundHeight;
-                float halfWidth = (goCollider.size.x / 2) - 1;
-
-                float left = go.transform.position.x - halfWidth;
-                float right = go.transform.position.x + halfWidth;
-
-
-                float x = Random.Range(left, right);
-                Vector2 coinPos = new Vector2(x, y);
-                con.transform.position = coinPos;
-
-                if (fall != null)
+                for (int i = 0; i < coinNum; i++)
                 {
-                    Coin cn = con.GetComponent<Coin>();
-                    fall.coins.Add(cn);
+                    GameObject con = Instantiate(coin.gameObject);
+                    Coin c = con.GetComponent<Coin>();
+
+                    float y = goGround.groundHeight;
+                    float halfWidth = (goCollider.size.x / 2) - 1;
+
+                    float left = go.transform.position.x - halfWidth;
+                    float right = go.transform.position.x + halfWidth;
+
+
+                    float x = Random.Range(left, right);
+                    Vector2 coinPos = new Vector2(x, y);
+                    con.transform.position = coinPos;
+
+                    if (fall != null)
+                    {
+                        fall.coins.Add(c);
+                    }
                 }
             }
+            
         }
     }
 }

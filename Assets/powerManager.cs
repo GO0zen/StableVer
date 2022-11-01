@@ -4,10 +4,16 @@ using UnityEngine;
 
 public class powerManager : MonoBehaviour
 {
+    Player player;  
     public bool powerActive;
+    public bool enabledByButton;
 
     public float lengthCounter = 7f;
 
+    private void Awake()
+    {
+        player = GameObject.Find("Player").GetComponent<Player>();
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +32,21 @@ public class powerManager : MonoBehaviour
                 powerActive = false;
                 lengthCounter = 7;
             }
+        }
+        else if (player.coinsNum >= 5 && Input.GetKey(KeyCode.W))
+        {
+
+            enabledByButton = true;
+            powerActive = true;
+            lengthCounter -= Time.deltaTime;
+
+            if (lengthCounter <= 0.1)
+            {
+                powerActive = false;
+                lengthCounter = 7;
+            }
+
+            
         }
     }
 }
