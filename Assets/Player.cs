@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+//using System.Diagnostics;
+using Debug = UnityEngine.Debug;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -31,6 +33,8 @@ public class Player : MonoBehaviour
     public LayerMask transfromatorLayerMask;
     public LayerMask boostLayerMask;
     public LayerMask coinLayerMask;
+
+    public Animator animator;
 
     GroundFall fall;
     CameraController cameraController;
@@ -70,8 +74,9 @@ public class Player : MonoBehaviour
             isHoldingJump = false;
         }
 
-
-
+        //animation controller
+        animator.SetFloat("PlayerVelocityY", velocity.y);
+        
     }
 
     private void FixedUpdate()
