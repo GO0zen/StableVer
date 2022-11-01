@@ -184,7 +184,9 @@ public class Ground : MonoBehaviour
         }
         else
         {
-            
+            int coinChance = Random.Range(0, 11);
+            int boostChance = Random.Range(0, 6);
+
             int obstacleBoxNum = Random.Range(0, 2);
             for (int i = 0; i < obstacleBoxNum; i++)
             {
@@ -207,7 +209,7 @@ public class Ground : MonoBehaviour
 
             int obstacleTransformNum = Random.Range(0, 2);
             
-            int boostChance = Random.Range(0, 6);
+            
 
             for (int i = 0; i < obstacleTransformNum; i++)
             {
@@ -284,7 +286,7 @@ public class Ground : MonoBehaviour
 
 
             int coinNum = Random.Range(0, 2);
-            int coinChance = Random.Range(0, 11);
+            
 
            
             if (coinChance == 1 || coinChance == 7)
